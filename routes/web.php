@@ -3,6 +3,12 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 
+Route::get('/', function () {
+    return response()->json([
+        'name' => 'ATLAS MBG API',
+        'status' => 'ok',
+    ]);
+});
 
 // GET semua user
 Route::get('/users', [UserController::class, 'index']);

@@ -11,14 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-    $table->id();
-    $table->string('nama');
-    $table->string('username')->unique();
-    $table->string('password');
-    $table->enum('role', ['admin', 'petugas', 'siswa']);
-    $table->timestamps();
-});
+        Schema::table('box_wadah', function (Blueprint $table) {
+            $table->integer('jumlah_box')->default(0)->after('kode_box');
+        });
     }
 
     /**
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::table('box_wadah', function (Blueprint $table) {
+            $table->dropColumn('jumlah_box');
+        });
     }
 };

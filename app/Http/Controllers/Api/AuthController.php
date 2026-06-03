@@ -36,7 +36,7 @@ class AuthController extends Controller
             'nama' => 'required|string|max:255',
             'username' => 'required|string|unique:users',
             'password' => 'required|string|min:6',
-            'role' => 'required|in:admin,petugas'
+            'role' => 'required|in:admin,petugas,siswa'
         ]);
 
         if ($validator->fails()) {
@@ -60,6 +60,11 @@ class AuthController extends Controller
     // 🔹 LOGIN (PAKAI USERNAME 🔥)
     public function login(Request $request)
     {
+        $request->validate([
+            'username' => 'required|string',
+            'password' => 'required|string',
+        ]);
+
         $user = User::where('username', $request->username)->first();
 
         if (!$user || !Hash::check($request->password, $user->password)) {
@@ -68,12 +73,49 @@ class AuthController extends Controller
             ], 401);
         }
 
+        if ($request->filled('role')) {
+            $expected = strtolower($request->role);
+            if ($expected === 'administrator') {
+                $expected = 'admin';
+            }
+            if ($user->role !== $expected) {
+                return response()->json([
+                    'message' => 'Akun ini bukan akun ' . $request->role
+                ], 403);
+            }
+        }
+
         $token = $user->createToken('auth_token')->plainTextToken;
 
         return response()->json([
             'message' => 'Login berhasil',
-            'token' => $token
+            'token' => $token,
+            'user' => $this->formatUser($user),
         ]);
+    }
+
+    public function me(Request $request)
+    {
+        return response()->json([
+            'user' => $this->formatUser($request->user()),
+        ]);
+    }
+
+    private function formatUser(User $user): array
+    {
+        return [
+            'id' => $user->id,
+            'nama' => $user->nama,
+            'username' => $user->username,
+            'role' => $user->role,
+            'email' => $user->email ?? null,
+            'nis' => $user->nis,
+            'kelas_id' => $user->kelas_id,
+            'kelas' => $user->kelas ? $user->kelas->nama_kelas : null,
+            'foto' => $user->foto,
+            'gender' => $user->gender,
+            'phone' => $user->phone,
+        ];
     }
 
     // 🔹 LOGOUT

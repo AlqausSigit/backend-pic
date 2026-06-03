@@ -16,12 +16,14 @@ class BoxWadahController extends Controller
 {
     // VALIDASI
     $request->validate([
+        'kode_box' => 'required|string|unique:box_wadah',
         'jumlah_box' => 'required|integer|min:1'
     ]);
 
     $box = BoxWadah::create([
+        'kode_box' => $request->kode_box,
         'jumlah_box' => $request->jumlah_box,
-        'status_box' => 'tersedia'
+        'status' => $request->status ?? $request->status_box ?? 'tersedia'
     ]);
 
     return response()->json([
@@ -32,7 +34,15 @@ class BoxWadahController extends Controller
 
     public function update(Request $request, $id) {
         $box = BoxWadah::findOrFail($id);
-        $box->update($request->all());
+        $data = $request->all();
+
+        if (isset($data['status_box']) && !isset($data['status'])) {
+            $data['status'] = $data['status_box'];
+        }
+
+        unset($data['status_box']);
+
+        $box->update($data);
         return $box;
     }
 

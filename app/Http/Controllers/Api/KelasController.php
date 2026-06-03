@@ -12,8 +12,34 @@ class KelasController extends Controller
         return Kelas::all();
     }
 
+    /**
+     * @OA\Post(
+     *     path="/api/kelas",
+     *     tags={"ATLAS"},
+     *     summary="Tambah Kelas",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=201, description="Berhasil")
+     * )
+     */
     public function store(Request $request) {
-        return Kelas::create($request->all());
+        $request->validate([
+            'nama_kelas' => 'required|string',
+            'jurusan' => 'nullable|string',
+            'jumlah_siswa' => 'nullable|integer',
+            'wali_kelas' => 'nullable|string'
+        ]);
+
+        $kelas = Kelas::create([
+            'nama_kelas' => $request->nama_kelas,
+            'jurusan' => $request->jurusan ?? '-',
+            'jumlah_siswa' => $request->jumlah_siswa ?? 0,
+            'wali_kelas' => $request->wali_kelas ?? $request->waliKelas
+        ]);
+
+        return response()->json([
+            'message' => 'Kelas berhasil ditambahkan',
+            'data' => $kelas
+        ], 201);
     }
 
     public function update(Request $request, $id) {

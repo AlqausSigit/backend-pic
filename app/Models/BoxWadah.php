@@ -8,8 +8,18 @@ class BoxWadah extends Model
 {
     protected $table = 'box_wadah';
 
+    protected $appends = [
+        'status_box'
+    ];
+
     protected $fillable = [
-    'jumlah_box',
-    'status_box'
-];
+        'kode_box',
+        'jumlah_box',
+        'status'
+    ];
+
+    public function getStatusBoxAttribute()
+    {
+        return $this->status;
+    }
 }

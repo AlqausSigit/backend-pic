@@ -6,24 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('box_wadah', function (Blueprint $table) {
-    $table->id();
-    $table->integer('jumlah_box');
-    $table->enum('status_box', ['tersedia','dipakai','rusak'])->default('tersedia');
-    $table->timestamps();
-});
+            $table->id();
+            $table->string('kode_box')->unique();
+            $table->enum('status', [
+                'tersedia',
+                'dipakai',
+                'dicuci',
+                'rusak'
+            ])->default('tersedia');
+            $table->timestamps();
+        });
     }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
-        Schema::dropIfExists('box_wadahs');
+        Schema::dropIfExists('box_wadah');
     }
 };

@@ -14,11 +14,22 @@ class User extends Authenticatable
     protected $fillable = [
         'nama',
         'username',
+        'email',
         'password',
-        'role'
+        'role',
+        'nis',
+        'kelas_id',
+        'foto',
+        'gender',
+        'phone'
     ];
 
     protected $hidden = [
         'password'
     ];
+
+    public function kelas()
+    {
+        return $this->belongsTo(Kelas::class, 'kelas_id');
+    }
 }

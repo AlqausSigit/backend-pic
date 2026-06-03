@@ -11,14 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
-    $table->id();
-    $table->string('nama');
-    $table->string('username')->unique();
-    $table->string('password');
-    $table->enum('role', ['admin', 'petugas', 'siswa']);
-    $table->timestamps();
-});
+        DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('admin', 'petugas', 'siswa') NOT NULL DEFAULT 'siswa'");
     }
 
     /**
@@ -26,6 +19,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('admin', 'petugas') NOT NULL DEFAULT 'admin'");
     }
 };

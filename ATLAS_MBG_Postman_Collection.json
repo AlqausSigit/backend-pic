@@ -1,0 +1,377 @@
+{
+  "info": {
+    "name": "ATLAS MBG - Role Based",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://127.0.0.1:8000/api",
+      "type": "string"
+    },
+    {
+      "key": "token_admin",
+      "value": "your_admin_token_here",
+      "type": "string"
+    },
+    {
+      "key": "token_petugas",
+      "value": "your_petugas_token_here",
+      "type": "string"
+    },
+    {
+      "key": "token_siswa",
+      "value": "your_siswa_token_here",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Auth (Public)",
+      "item": [
+        {
+          "name": "Login",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"username\": \"admin_utama\",\n    \"password\": \"04112008\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/login",
+              "host": ["{{base_url}}"],
+              "path": ["login"]
+            }
+          }
+        },
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"nama\": \"Siswa Baru\",\n    \"username\": \"siswa01\",\n    \"password\": \"12345678\",\n    \"role\": \"siswa\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/register",
+              "host": ["{{base_url}}"],
+              "path": ["register"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Admin & Petugas (CRUD)",
+      "item": [
+        {
+          "name": "Manajemen User",
+          "item": [
+            {
+              "name": "Get Semua User",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token_admin}}"}
+                ],
+                "url": {"raw": "{{base_url}}/users", "host": ["{{base_url}}"], "path": ["users"]}
+              }
+            },
+            {
+              "name": "Cek Data Siswa",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token_admin}}"}
+                ],
+                "url": {"raw": "{{base_url}}/cek-siswa", "host": ["{{base_url}}"], "path": ["cek-siswa"]}
+              }
+            },
+            {
+              "name": "Tambah User",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token_admin}}"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"nama\": \"Petugas Baru\",\n    \"username\": \"petugas01\",\n    \"password\": \"password\",\n    \"role\": \"petugas\"\n}",
+                  "options": {"raw": {"language": "json"}}
+                },
+                "url": {"raw": "{{base_url}}/users", "host": ["{{base_url}}"], "path": ["users"]}
+              }
+            },
+            {
+              "name": "Update User",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token_admin}}"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"nama\": \"Petugas Update\",\n    \"role\": \"petugas\"\n}",
+                  "options": {"raw": {"language": "json"}}
+                },
+                "url": {"raw": "{{base_url}}/users/1", "host": ["{{base_url}}"], "path": ["users", "1"]}
+              }
+            },
+            {
+              "name": "Delete User",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token_admin}}"}
+                ],
+                "url": {"raw": "{{base_url}}/users/1", "host": ["{{base_url}}"], "path": ["users", "1"]}
+              }
+            }
+          ]
+        },
+        {
+          "name": "Manajemen Kelas",
+          "item": [
+            {
+              "name": "Get Semua Kelas",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token_admin}}"}
+                ],
+                "url": {"raw": "{{base_url}}/kelas", "host": ["{{base_url}}"], "path": ["kelas"]}
+              }
+            },
+            {
+              "name": "Tambah Kelas",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token_admin}}"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"nama_kelas\": \"10 IPA 1\",\n    \"jumlah_siswa\": 30\n}",
+                  "options": {"raw": {"language": "json"}}
+                },
+                "url": {"raw": "{{base_url}}/kelas", "host": ["{{base_url}}"], "path": ["kelas"]}
+              }
+            },
+            {
+              "name": "Update Kelas",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token_admin}}"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"nama_kelas\": \"10 IPA 1 Updated\",\n    \"jumlah_siswa\": 32\n}",
+                  "options": {"raw": {"language": "json"}}
+                },
+                "url": {"raw": "{{base_url}}/kelas/1", "host": ["{{base_url}}"], "path": ["kelas", "1"]}
+              }
+            },
+            {
+              "name": "Delete Kelas",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token_admin}}"}
+                ],
+                "url": {"raw": "{{base_url}}/kelas/1", "host": ["{{base_url}}"], "path": ["kelas", "1"]}
+              }
+            }
+          ]
+        },
+        {
+          "name": "Manajemen Box/Wadah",
+          "item": [
+            {
+              "name": "Get Semua Box",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token_admin}}"}
+                ],
+                "url": {"raw": "{{base_url}}/box", "host": ["{{base_url}}"], "path": ["box"]}
+              }
+            },
+            {
+              "name": "Tambah Box",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token_admin}}"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"kode_box\": \"BOX-001\",\n    \"status_box\": \"tersedia\"\n}",
+                  "options": {"raw": {"language": "json"}}
+                },
+                "url": {"raw": "{{base_url}}/box", "host": ["{{base_url}}"], "path": ["box"]}
+              }
+            },
+            {
+              "name": "Update Box",
+              "request": {
+                "method": "PUT",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token_admin}}"}
+                ],
+                "body": {
+                  "mode": "raw",
+                  "raw": "{\n    \"status_box\": \"dipakai\"\n}",
+                  "options": {"raw": {"language": "json"}}
+                },
+                "url": {"raw": "{{base_url}}/box/1", "host": ["{{base_url}}"], "path": ["box", "1"]}
+              }
+            },
+            {
+              "name": "Delete Box",
+              "request": {
+                "method": "DELETE",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token_admin}}"}
+                ],
+                "url": {"raw": "{{base_url}}/box/1", "host": ["{{base_url}}"], "path": ["box", "1"]}
+              }
+            }
+          ]
+        },
+        {
+          "name": "Dashboard & Rekap (Admin)",
+          "item": [
+            {
+              "name": "Dashboard Admin",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token_admin}}"}
+                ],
+                "url": {"raw": "{{base_url}}/dashboard/admin", "host": ["{{base_url}}"], "path": ["dashboard", "admin"]}
+              }
+            },
+            {
+              "name": "Monitoring Pengambilan",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token_admin}}"}
+                ],
+                "url": {"raw": "{{base_url}}/monitoring", "host": ["{{base_url}}"], "path": ["monitoring"]}
+              }
+            },
+            {
+              "name": "Rekap MBG",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token_admin}}"}
+                ],
+                "url": {"raw": "{{base_url}}/rekap", "host": ["{{base_url}}"], "path": ["rekap"]}
+              }
+            },
+            {
+              "name": "Download PDF",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token_admin}}"}
+                ],
+                "url": {"raw": "{{base_url}}/downloadpdf", "host": ["{{base_url}}"], "path": ["downloadpdf"]}
+              }
+            },
+            {
+              "name": "Riwayat Aktivitas",
+              "request": {
+                "method": "GET",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token_admin}}"}
+                ],
+                "url": {"raw": "{{base_url}}/aktivitas", "host": ["{{base_url}}"], "path": ["aktivitas"]}
+              }
+            },
+            {
+              "name": "Backup Sistem",
+              "request": {
+                "method": "POST",
+                "header": [
+                  {"key": "Authorization", "value": "Bearer {{token_admin}}"}
+                ],
+                "url": {"raw": "{{base_url}}/backup", "host": ["{{base_url}}"], "path": ["backup"]}
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Siswa (Akses Terbatas)",
+      "item": [
+        {
+          "name": "Dashboard Siswa",
+          "request": {
+            "method": "GET",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token_siswa}}"}
+            ],
+            "url": {"raw": "{{base_url}}/dashboard/siswa", "host": ["{{base_url}}"], "path": ["dashboard", "siswa"]}
+          }
+        },
+        {
+          "name": "Transaksi Ambil MBG",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token_siswa}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"kelas_id\": 1,\n    \"jumlah_porsi\": 30\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {"raw": "{{base_url}}/transaksi/ambil", "host": ["{{base_url}}"], "path": ["transaksi", "ambil"]}
+          }
+        },
+        {
+          "name": "Kembalikan Wadah",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token_siswa}}"}
+            ],
+            "url": {"raw": "{{base_url}}/transaksi/1/kembali", "host": ["{{base_url}}"], "path": ["transaksi", "1", "kembali"]}
+          }
+        },
+        {
+          "name": "Lapor Wadah",
+          "request": {
+            "method": "POST",
+            "header": [
+              {"key": "Authorization", "value": "Bearer {{token_siswa}}"}
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"box_id\": 1,\n    \"keterangan\": \"Tutupnya pecah\",\n    \"status\": \"rusak\"\n}",
+              "options": {"raw": {"language": "json"}}
+            },
+            "url": {"raw": "{{base_url}}/lapor", "host": ["{{base_url}}"], "path": ["lapor"]}
+          }
+        }
+      ]
+    }
+  ]
+}

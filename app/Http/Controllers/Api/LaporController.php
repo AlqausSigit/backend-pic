@@ -7,6 +7,15 @@ use Illuminate\Http\Request;
 
 class LaporController extends Controller
 {
+    /**
+     * @OA\Post(
+     *     path="/api/lapor",
+     *     tags={"ATLAS"},
+     *     summary="Lapor Wadah",
+     *     security={{"bearerAuth":{}}},
+     *     @OA\Response(response=200, description="Berhasil")
+     * )
+     */
     public function store(Request $request)
 {
     $request->validate([

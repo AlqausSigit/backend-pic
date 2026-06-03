@@ -19,7 +19,14 @@ class TransaksiMbg extends Model
         'tanggal',
         'jam_ambil',
         'jam_kembali',
-        'status'
+        'status',
+        'catatan',
+        'foto_makanan',
+        'kalori_ai',
+        'waste_level',
+        'rating',
+        'sisa_makanan',
+        'komentar_siswa'
     ];
 
     public function user()
